@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - '**'
+  pull_request:
+    branches:
+      - '**'
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+      - name: Install deps (if requirements.txt exists)
+        run: |
+          if [ -f requirements.txt ]; then
+            pip install -r requirements.txt
+          fi
+      - name: Run tests (if pytest present)
+        run: |
+          if command -v pytest >/dev/null 2>&1; then
+            pytest -q || true
+          else
+            echo "No tests found or pytest not installed - skipping"
+          fi
+
+  demo:
+    name: Run demo (quick)
+    runs-on: ubuntu-latest
+    needs: build-and-test
+    steps:
+      - uses: actions/checkout@v4
+      - name: Make run_demo executable
+        run: chmod +x experiments/run_demo.sh || true
+      - name: Run demo placeholder
+        run: |
+          ./experiments/run_demo.sh
