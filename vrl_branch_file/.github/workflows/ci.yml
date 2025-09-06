@@ -1,0 +1,57 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - '**'
+  pull_request:
+    branches:
+      - '**'
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      - name: Install deps (if requirements.txt exists)
+        run: |
+          if [ -f requirements.txt ]; then
+            python -m pip install --upgrade pip
+            python -m pip install -r requirements.txt
+          fi
+      - name: Run pytest if available
+        run: |
+          if [ -f pytest.ini ] || [ -d tests ]; then
+            python -m pip install pytest
+            pytest -q
+          else
+            echo "No tests found - skipping"
+          fi
+
+  demo:
+    name: Run demo and upload results
+    runs-on: ubuntu-latest
+    needs: build-and-test
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      - name: Ensure run_demo is executable
+        run: chmod +x experiments/run_demo.sh || true
+      - name: Run demo (quick)
+        run: |
+          ./experiments/run_demo.sh
+      - name: Upload demo results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: demo-results
+          path: results/
