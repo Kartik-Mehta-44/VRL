@@ -11,10 +11,8 @@ echo "COPY the following command and run it from your VRL repo root:"
 cat <<EOF
 git fetch origin
 git checkout -b $BRANCH
-cp -r $(pwd)/branch_files/* .
-git add experiments .github
+cp -a $(pwd)/branch_files/. .
+git add experiments .github README_apply_branch.txt branch_apply_instructions.sh
 git commit -m "Add experiments folder, run_demo placeholder, CI skeleton, and issue templates"
 git push -u origin $BRANCH
 EOF
-echo
-echo "If you have 'gh' (GitHub CLI) installed, create a PR with: gh pr create --fill"
