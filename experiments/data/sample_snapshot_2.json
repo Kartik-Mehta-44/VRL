@@ -1,0 +1,24 @@
+{
+  "snapshot_id": "demo-snap-002",
+  "created": "2025-09-02T00:00:00Z",
+  "files": [
+    {
+      "path": "/a/b/c/d.txt",
+      "inode": 201,
+      "size": 512,
+      "bad": false
+    },
+    {
+      "path": "/a/b/.hidden",
+      "inode": 202,
+      "size": 1,
+      "bad": false
+    },
+    {
+      "path": "/lost+found/strange",
+      "inode": 203,
+      "size": 0,
+      "bad": true
+    }
+  ]
+}

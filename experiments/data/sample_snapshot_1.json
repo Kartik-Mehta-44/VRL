@@ -1,0 +1,36 @@
+{
+  "snapshot_id": "demo-snap-001",
+  "created": "2025-09-01T00:00:00Z",
+  "files": [
+    {
+      "path": "/file1.txt",
+      "inode": 101,
+      "size": 128,
+      "bad": false
+    },
+    {
+      "path": "/file2.txt",
+      "inode": 102,
+      "size": 256,
+      "bad": false
+    },
+    {
+      "path": "/lost+found/unknown",
+      "inode": 103,
+      "size": 0,
+      "bad": true
+    },
+    {
+      "path": "/dup1.txt",
+      "inode": 104,
+      "size": 64,
+      "bad": false
+    },
+    {
+      "path": "/dup2.txt",
+      "inode": 104,
+      "size": 64,
+      "bad": false
+    }
+  ]
+}
