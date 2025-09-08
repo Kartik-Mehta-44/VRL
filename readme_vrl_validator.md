@@ -1,9 +1,9 @@
-VRL Validator (Rust)
+**VRL Validator (Rust)**
 
 This crate implements the runtime validator and checker for the Verified Repair Layer (VRL).
 It mirrors the invariants and repair primitives defined in Coq, but runs on actual filesystem snapshots.
 
-Features
+**Features**
 
 Snapshot model (FSStateSnap, Inode)
 
@@ -15,15 +15,16 @@ check_bitmap_soundness (used blocks must be marked in bitmap)
 
 check_unique_ownership (no two inodes share the same block)
 
-RepairAction:
+
+**RepairAction:**
 
 FixBitmap primitive
 
-Validator:
+**Validator:**
 
 validate_action ensures FixBitmap preconditions are met
 
-CLI:
+**CLI:**
 
 Load a JSON snapshot, run all invariants, propose and validate repairs
 
@@ -49,7 +50,7 @@ Run the CLI:
 cargo run --release -- snapshot.json
 
 
-Output example:
+**Output example:**
 
 Checking invariants...
 Block range: ✅
