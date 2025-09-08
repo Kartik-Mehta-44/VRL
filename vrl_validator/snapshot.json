@@ -1,0 +1,10 @@
+{
+  "total_blocks": 10,
+  "bitmap": [true, false, false, false, false, false, false, false, false, false],
+  "inodes": [
+    [1, {"inode_blocks": [1,2], "inode_size": 4096}],
+    [2, {"inode_blocks": [3], "inode_size": 2048}],
+    [3, {"inode_blocks": [2,5], "inode_size": 1024}]
+  ]
+}
+
