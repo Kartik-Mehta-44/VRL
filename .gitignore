@@ -78,3 +78,4 @@ __pycache__/
 
 # If you use Git LFS for large objects, keep pointers in git while actual binaries are in LFS.
 # See .gitattributes example below to enable LFS for images.
+metadata.json
