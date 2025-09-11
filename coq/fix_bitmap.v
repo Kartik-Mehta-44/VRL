@@ -2,6 +2,7 @@
    A simple fix_bitmap primitive and correctness lemmas.
    Works with Coq 8.19.
 *)
+
 From Coq Require Import List Arith Bool Lia.
 Require Import Coq.Arith.PeanoNat.
 Require Import Coq.Lists.List.
@@ -58,11 +59,11 @@ Proof.
   - destruct i; simpl; rewrite ?IH; reflexivity.
 Qed.
 
-(* Helper lemma: set_bitmap_true preserves other positions *)
 Lemma set_bitmap_true_nth_neq :
   forall bm i j,
     i <> j ->
-    nth_default_bool false (set_bitmap_true bm i) j = nth_default_bool false bm j.
+    nth_default_bool false (set_bitmap_true bm i) j =
+    nth_default_bool false bm j.
 Proof.
   induction bm as [| b bm' IH]; simpl; intros i j Hneq.
   - reflexivity.
@@ -73,7 +74,6 @@ Proof.
     + simpl. apply IH. lia.
 Qed.
 
-(* Helper lemma: if a bit is already true, set_many_true preserves it *)
 Lemma set_many_true_preserves_true :
   forall bm l i,
     i < length bm ->
@@ -87,7 +87,7 @@ Proof.
     + rewrite set_bitmap_true_length. assumption.
     + destruct (Nat.eq_dec i x) as [Heq | Hneq].
       * subst. apply set_bitmap_true_nth. assumption.
-      * rewrite set_bitmap_true_nth_neq; [exact Htrue | apply Nat.neq_sym; exact Hneq].
+      * rewrite set_bitmap_true_nth_neq; [assumption|lia].
 Qed.
 
 Lemma set_many_true_sets :
@@ -100,14 +100,11 @@ Proof.
   induction l as [| y ys IH]; intros bm x Hin Hlen.
   - simpl in Hin. contradiction.
   - simpl in Hin. destruct Hin as [Heq | Hin].
-    + subst x. (* x = y *)
-      simpl. apply set_many_true_preserves_true.
+    + subst x. simpl. apply set_many_true_preserves_true.
       * rewrite set_bitmap_true_length. assumption.
       * apply set_bitmap_true_nth. assumption.
-    + (* x ∈ ys *)
-      simpl. apply IH.
-      * assumption.
-      * rewrite set_bitmap_true_length. assumption.
+    + simpl. apply IH; try assumption.
+      rewrite set_bitmap_true_length. assumption.
 Qed.
 
 Lemma In_remove_duplicates :
@@ -117,14 +114,10 @@ Proof.
   induction l as [| y ys IH]; simpl; intros x Hin.
   - contradiction.
   - destruct (existsb (Nat.eqb y) ys) eqn:E.
-    + (* y is already in ys, so remove_duplicates l = remove_duplicates ys *)
-      right. apply IH. assumption.
-    + (* y is not in ys, so remove_duplicates l = y :: remove_duplicates ys *)
-      destruct Hin as [Hx | Hin].
-      * (* x = y *)
-        left. assumption.
-      * (* x ∈ remove_duplicates ys *)
-        right. apply IH. assumption.
+    + right. apply IH. assumption.
+    + destruct Hin as [Hx | Hin].
+      * subst. auto.
+      * right. apply IH. assumption.
 Qed.
 
 Lemma fix_bitmap_restores_bitmap_soundness :
@@ -136,7 +129,6 @@ Proof.
   intros s Hlen Hrange b Hin.
   unfold fix_bitmap, inv_bitmap_soundness, bitmap_get. simpl.
   rewrite fix_bitmap_preserves_used_blocks in Hin.
-  apply set_many_true_sets.
-  - exact Hin.
-  - rewrite Hlen. apply Hrange. apply In_remove_duplicates. exact Hin.
+  apply set_many_true_sets; try assumption.
+  rewrite Hlen. apply Hrange. apply In_remove_duplicates. exact Hin.
 Qed.
