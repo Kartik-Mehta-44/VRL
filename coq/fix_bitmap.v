@@ -2,10 +2,10 @@
    A simple fix_bitmap primitive and correctness lemmas.
    Works with Coq 8.19.
 *)
-From Stdlib Require Import List Arith Bool Lia.
-Import ListNotations.
-Require Import Stdlib.Arith.PeanoNat.
-Require Import Stdlib.Lists.List.
+From Coq Require Import List Arith Bool Lia.
+Require Import Coq.Arith.PeanoNat.
+Require Import Coq.Lists.List.
+
 Require Import fs_model.
 Require Import invariants.
 
