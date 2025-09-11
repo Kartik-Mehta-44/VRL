@@ -15,7 +15,9 @@ jobs:
         with:
           coq_version: "8.19"
           script: |
-            cd coq
+            mkdir /tmp/coqbuild
+            cp coq/*.v /tmp/coqbuild/
+            cd /tmp/coqbuild
             coqc fs_model.v
             coqc invariants.v
             coqc fix_bitmap.v
