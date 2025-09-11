@@ -1,16 +1,15 @@
-VRL Integration
-Purpose
+# VRL Integration
 
-This document explains how the Coq proofs (formal side) correspond to the Rust validator (practical side).
-It serves as a bridge between the verified model and the executable CLI.
+This document explains how the Coq proofs (formal side) correspond to the Rust validator (runtime side). It serves as the bridge between the verified model and the executable CLI.
 
-1. State Representation
-Concept	              Coq (fs_model.v)	 Rust (lib.rs)
-Block identifier	nat (BlockId)	usize (BlockId)
-Inode identifier	nat (InodeId)	usize (InodeId)
-Inode	               Record Inode	struct Inode
-Bitmap	                 list bool	Vec<bool>
-FS state	       Record FSState	struct FSStateSnap
+## 📂 State Representation
+| Concept          | Coq (fs\_model.v) | Rust (lib.rs)        |
+| ---------------- | ----------------- | -------------------- |
+| Block identifier | `nat` (`BlockId`) | `usize` (`BlockId`)  |
+| Inode identifier | `nat` (`InodeId`) | `usize` (`InodeId`)  |
+| Inode            | `Record Inode`    | `struct Inode`       |
+| Bitmap           | `list bool`       | `Vec<bool>`          |
+| FS state         | `Record FSState`  | `struct FSStateSnap` |
 
 Both sides model:
 
@@ -20,32 +19,38 @@ bitmap
 
 inodes
 
-2. Invariants
-Invariant	Coq definition (invariants.v)	Rust checker (lib.rs)
-Block range	        inv_block_range	         check_block_range
-Bitmap soundness	inv_bitmap_soundness	 check_bitmap_soundness
-Unique ownership	inv_unique_ownership	 check_unique_ownership
+## 🔒 Invariants
+| Invariant            | Coq (invariants.v)     | Rust (lib.rs)            | Status                                                    |
+| -------------------- | ---------------------- | ------------------------ | --------------------------------------------------------- |
+| Block range validity | `inv_block_range`      | `check_block_range`      | ✅ Proven in Coq, implemented in Rust                      |
+| Bitmap soundness     | `inv_bitmap_soundness` | `check_bitmap_soundness` | ✅ Proven in Coq, implemented in Rust                      |
+| Unique ownership     | `inv_unique_ownership` | `check_unique_ownership` | ⚠️ Defined but not proven in Coq (checker exists in Rust) |
 
-Coq encodes invariants as propositions and proves lemmas.
 
-Rust implements the same logic as boolean functions returning true/false.
+Coq: Encodes invariants as Prop and proves lemmas about them.
 
-3. Repair Primitive
-Concept	       Coq (fix_bitmap.v)	Rust (validate_action)
-Repair	        fix_bitmap function	RepairAction::FixBitmap
-Guarantee	fix_bitmap_restores_bitmap_soundness proven in Coq	Reimplemented in Rust by setting bitmap bits for all used blocks
+Rust: Implements checkers as boolean functions (true/false).
+
+## 🛠️ Repair Primitives
+| Concept   | Coq (fix\_bitmap.v)                    | Rust (validate\_action)       | Status                            |
+| --------- | -------------------------------------- | ----------------------------- | --------------------------------- |
+| Repair    | `fix_bitmap` function                  | `RepairAction::FixBitmap`     | Implemented                       |
+| Guarantee | `fix_bitmap_restores_bitmap_soundness` | Applies same logic concretely | ✅ Proven in Coq, mirrored in Rust |
+
+
+Coq: Proves fix_bitmap restores bitmap soundness without changing inodes.
+
+Rust: Replays the same logic concretely on snapshots.
 
 Key difference:
 
-Coq proves that fix_bitmap restores bitmap soundness (under assumptions).
+Coq gives mathematical proof.
 
-Rust replays the same logic concretely on snapshots.
+Rust provides executable enforcement, but not proofs.
 
-Rust does not provide proofs but is designed to mirror the verified Coq semantics.
+## 🔄 Validator Flow
 
-4. Validator Flow
-
-Input: Snapshot (JSON or FFI from ext4).
+Input: Snapshot (snapshot.json or FFI from ext4 dumper).
 
 Checks: Run check_block_range, check_bitmap_soundness, check_unique_ownership.
 
@@ -55,22 +60,40 @@ Apply repair: Update bitmap accordingly.
 
 Re-check invariants.
 
-5. Current Status
+## 📌 Current Status
 
-All three invariants defined and proven in Coq.
+All three invariants defined in Coq.
 
-fix_bitmap proven to restore bitmap soundness (in Coq).
+Proven in Coq:
 
-Rust validator implements the same logic and passes sample tests.
+inv_block_range
 
-Next: Add FFI to read real ext4 state into FSStateSnap.
+inv_bitmap_soundness
 
-Next: Add CI/CD to check proofs + build Rust automatically.
+fix_bitmap primitive
 
-6. Assumptions
+Rust validator: Implements all 3 checkers + validate_action(FixBitmap).
 
-Bitmap length matches total_blocks (ensured before applying fix).
+CLI tested with sample snapshots: behavior matches Coq design (FixBitmap repairs bitmap soundness but does not fix unique ownership).
 
-Ext4 parsing code (future work) must ensure snapshot consistency before running checkers.
+CI/CD:
 
-Rust validator does not yet enforce formal proof obligations (only mirrors logic).
+  GitHub Actions runs Coq proofs (coqc fs_model.v invariants.v fix_bitmap.v).
+
+  Rust validator builds + runs unit tests.
+
+✅ Both jobs passing.
+
+## ⚖️ Assumptions & Limitations
+
+Bitmap length = total_blocks (checked before applying fix).
+
+Ext4 parsing code (future work) must ensure snapshot consistency.
+
+Rust validator does not enforce proof obligations — it mirrors Coq logic.
+
+Only FixBitmap is proven in Coq.
+
+Other repairs (resolve_duplicate_block, restore_inode_links, replay_journal) are not yet specified/proven.
+
+Journal semantics are currently out of scope.
