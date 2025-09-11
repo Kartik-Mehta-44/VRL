@@ -1,0 +1,47 @@
+{
+  "mode": "auto",
+  "superblock": {
+    "inodes": 16384,
+    "blocks": 16384,
+    "block_size": 4096
+  },
+  "group_desc": {
+    "block_bitmap": 9,
+    "inode_bitmap": 25,
+    "inode_table": 41
+  },
+  "modified_block_bitmap": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    16,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ]
+}
