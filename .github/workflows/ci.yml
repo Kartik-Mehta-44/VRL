@@ -23,7 +23,7 @@ jobs:
           opam install -y coq
       - name: Build Coq files
         run: |
-          cd vrl/coq
+          cd coq
           coqc fs_model.v
           coqc invariants.v
           coqc fix_bitmap.v
@@ -38,10 +38,10 @@ jobs:
 
       - name: Build Rust project
         run: |
-          cd vrl/vrl_validator
+          cd vrl_validator
           cargo build --release
 
       - name: Run Rust tests
         run: |
-          cd vrl/vrl_validator
+          cd vrl_validator
           cargo test --release
