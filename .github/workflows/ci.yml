@@ -10,23 +10,15 @@ jobs:
     name: Coq proofs
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
-
-      - name: Install Coq
-        run: |
-          sudo apt update
-          sudo apt install -y opam m4 git
-          opam init -y --bare
-          opam switch create coq-8.19.0 ocaml-base-compiler.4.14.1
-          eval $(opam env)
-          opam install -y coq
-      - name: Build Coq files
-        run: |
-          cd coq
-          coqc fs_model.v
-          coqc invariants.v
-          coqc fix_bitmap.v
+      - uses: actions/checkout@v4
+      - uses: coq-community/docker-coq-action@v1
+        with:
+          coq_version: "8.19"
+          script: |
+            cd coq
+            coqc fs_model.v
+            coqc invariants.v
+            coqc fix_bitmap.v
 
   rust:
     name: Rust validator
