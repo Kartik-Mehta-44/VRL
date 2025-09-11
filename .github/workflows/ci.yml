@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  coq:
+    name: Coq proofs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: coq-community/docker-coq-action@v1
+        with:
+          coq_version: "8.19"
+          script: |
+            mkdir /tmp/coqbuild
+            cp coq/*.v /tmp/coqbuild/
+            cd /tmp/coqbuild
+            coqc fs_model.v
+            coqc invariants.v
+            coqc fix_bitmap.v
+
+  rust:
+    name: Rust validator
+    runs-on: ubuntu-latest
+    needs: coq
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Build Rust project
+        run: |
+          cd vrl_validator
+          cargo build --release
+
+      - name: Run Rust tests
+        run: |
+          cd vrl_validator
+          cargo test --release
