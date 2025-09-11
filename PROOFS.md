@@ -40,7 +40,7 @@ Leaves inodes unchanged.
 | **ReplayJournal**         | Apply pending journal operations.                                 | **Not modeled in Coq**                                                                                                                         |
 | **ClearInode**            | Free a corrupted inode (destructive).                             | **Not modeled in Coq**                                                                                                                         |
 
-#⚖️ Assumptions & Limitations
+## ⚖️ Assumptions & Limitations
 
 Scope restricted to metadata (superblock, inodes, bitmap).
 
@@ -54,7 +54,7 @@ Unique ownership invariant is specified but not proven for FixBitmap (not requir
 
 All Coq proofs are carried out in Coq 8.19, no Admitted used.
 
-# 🔄 CI / Reproducibility
+## 🔄 CI / Reproducibility
 
 GitHub Actions CI pipeline configured:
 
