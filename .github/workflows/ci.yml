@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [ main ]
   pull_request:
 
 jobs:
@@ -10,46 +10,38 @@ jobs:
     name: Coq proofs
     runs-on: ubuntu-latest
     steps:
-      - name: checkout
+      - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Run Coq checks (Docker-Coq action)
-        # docker-coq-action provides a reproducible container with Coq & opam.
-        uses: coq-community/docker-coq-action@v1
-        with:
-          # Set the Coq version you used locally (change if you used another)
-          coq_version: '8.19'
-          # Run the minimal set of compilation steps that ensure the .v files compile.
-          # We run the three main files we worked on:
-          script: |
-            set -e
-            echo "Compiling Coq files..."
-            # adapt paths if your .v files live elsewhere
-            coqc coq/fs_model.v
-            coqc coq/invariants.v
-            coqc coq/fix_bitmap.v
+      - name: Install Coq
+        run: |
+          sudo apt update
+          sudo apt install -y opam m4 git
+          opam init -y --bare
+          opam switch create coq-8.19.0 ocaml-base-compiler.4.14.1
+          eval $(opam env)
+          opam install -y coq
+      - name: Build Coq files
+        run: |
+          cd vrl/coq
+          coqc fs_model.v
+          coqc invariants.v
+          coqc fix_bitmap.v
 
   rust:
-    name: Rust build & tests
+    name: Rust validator
     runs-on: ubuntu-latest
     needs: coq
     steps:
-      - name: checkout
+      - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Install Rust toolchain
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
+      - name: Build Rust project
+        run: |
+          cd vrl/vrl_validator
+          cargo build --release
 
-      - name: Build (release)
-        uses: actions-rs/cargo@v1
-        with:
-          command: build
-          args: --release
-
-      - name: Run tests
-        uses: actions-rs/cargo@v1
-        with:
-          command: test
-          args: --release
+      - name: Run Rust tests
+        run: |
+          cd vrl/vrl_validator
+          cargo test --release
