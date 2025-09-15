@@ -1,0 +1,36 @@
+{
+  "superblock": {
+    "block_size": 4096,
+    "blocks_count": 1024,
+    "inodes_count": 128
+  },
+  "block_groups": [
+    {
+      "group_index": 0,
+      "block_bitmap": [
+        false,
+        true,
+        true,
+        false,
+        false
+      ]
+    }
+  ],
+  "inodes": [
+    {
+      "inode": 2,
+      "link_count": 1,
+      "blocks": [
+        1,
+        2
+      ]
+    },
+    {
+      "inode": 3,
+      "link_count": 1,
+      "blocks": [
+        4
+      ]
+    }
+  ]
+}
