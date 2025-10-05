@@ -1,0 +1,12 @@
+/mnt/c/Users/km307/Desktop/EDAI-5/VRL/vrl_branch_file/experiments/scripts/vrl_apply_mock.py:26: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+  start = datetime.utcnow().isoformat() + "Z"
+[MOCK VRL] failed to read plan: [Errno 2] No such file or directory: 'experiments/data/plan_trial_01.json'
+/mnt/c/Users/km307/Desktop/EDAI-5/VRL/vrl_branch_file/experiments/scripts/vrl_apply_mock.py:61: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+  "repaired_at": datetime.utcnow().isoformat() + "Z",
+[MOCK VRL] start: 2025-10-01T01:27:22.152238Z
+[MOCK VRL] input: results/dupblock_test/trial_01/corrupted.img
+[MOCK VRL] output: results/dupblock_test/trial_01/repaired_vrl.img
+[MOCK VRL] using plan: experiments/data/plan_trial_01.json
+[MOCK VRL] wrote output: results/dupblock_test/trial_01/repaired_vrl.img
+[MOCK VRL] validator: /mnt/c/Users/km307/Desktop/EDAI-5/VRL/vrl_branch_file/results/dupblock_test/trial_01/repaired_vrl_validator.json
+[MOCK VRL] done.

@@ -1,0 +1,11 @@
+{
+  "image": "results/dupblock_test/trial_01/corrupted.img",
+  "block_size": 4096,
+  "nblocks": 51200,
+  "pairs": [
+    [
+      38086,
+      12763
+    ]
+  ]
+}

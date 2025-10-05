@@ -1,0 +1,87 @@
+[
+  {
+    "trial": 1,
+    "timestamp": "2025-09-30T17:38:35.877857+00:00",
+    "base_img_size": 209715200,
+    "corrupted_img_size": 209715200,
+    "e2fsck": {
+      "rc": 0,
+      "duration_s": 4.146404266357422,
+      "log": "results/dupblock_experiments/trial_01/e2fsck_fix.log"
+    },
+    "vrl_apply": {
+      "rc": 2,
+      "duration_s": 0.03850817680358887,
+      "log": "results/dupblock_experiments/trial_01/vrl_apply.log",
+      "cmd": "python3 /path/to/vrl_apply.py --input results/dupblock_experiments/trial_01/corrupted.img --output results/dupblock_experiments/trial_01/repaired_vrl.img"
+    }
+  },
+  {
+    "trial": 2,
+    "timestamp": "2025-09-30T17:38:52.320261+00:00",
+    "base_img_size": 209715200,
+    "corrupted_img_size": 209715200,
+    "e2fsck": {
+      "rc": 0,
+      "duration_s": 0.1066884994506836,
+      "log": "results/dupblock_experiments/trial_02/e2fsck_fix.log"
+    },
+    "vrl_apply": {
+      "rc": 2,
+      "duration_s": 0.042595863342285156,
+      "log": "results/dupblock_experiments/trial_02/vrl_apply.log",
+      "cmd": "python3 /path/to/vrl_apply.py --input results/dupblock_experiments/trial_02/corrupted.img --output results/dupblock_experiments/trial_02/repaired_vrl.img"
+    }
+  },
+  {
+    "trial": 3,
+    "timestamp": "2025-09-30T17:39:06.122918+00:00",
+    "base_img_size": 209715200,
+    "corrupted_img_size": 209715200,
+    "e2fsck": {
+      "rc": 0,
+      "duration_s": 0.08483433723449707,
+      "log": "results/dupblock_experiments/trial_03/e2fsck_fix.log"
+    },
+    "vrl_apply": {
+      "rc": 2,
+      "duration_s": 0.037573814392089844,
+      "log": "results/dupblock_experiments/trial_03/vrl_apply.log",
+      "cmd": "python3 /path/to/vrl_apply.py --input results/dupblock_experiments/trial_03/corrupted.img --output results/dupblock_experiments/trial_03/repaired_vrl.img"
+    }
+  },
+  {
+    "trial": 4,
+    "timestamp": "2025-09-30T17:39:22.091499+00:00",
+    "base_img_size": 209715200,
+    "corrupted_img_size": 209715200,
+    "e2fsck": {
+      "rc": 0,
+      "duration_s": 0.08738088607788086,
+      "log": "results/dupblock_experiments/trial_04/e2fsck_fix.log"
+    },
+    "vrl_apply": {
+      "rc": 2,
+      "duration_s": 0.03712821006774902,
+      "log": "results/dupblock_experiments/trial_04/vrl_apply.log",
+      "cmd": "python3 /path/to/vrl_apply.py --input results/dupblock_experiments/trial_04/corrupted.img --output results/dupblock_experiments/trial_04/repaired_vrl.img"
+    }
+  },
+  {
+    "trial": 5,
+    "timestamp": "2025-09-30T17:39:34.671324+00:00",
+    "base_img_size": 209715200,
+    "corrupted_img_size": 209715200,
+    "e2fsck": {
+      "rc": 0,
+      "duration_s": 0.08854031562805176,
+      "log": "results/dupblock_experiments/trial_05/e2fsck_fix.log"
+    },
+    "vrl_apply": {
+      "rc": 2,
+      "duration_s": 0.03555154800415039,
+      "log": "results/dupblock_experiments/trial_05/vrl_apply.log",
+      "cmd": "python3 /path/to/vrl_apply.py --input results/dupblock_experiments/trial_05/corrupted.img --output results/dupblock_experiments/trial_05/repaired_vrl.img"
+    }
+  }
+]

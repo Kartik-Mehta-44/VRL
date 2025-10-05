@@ -1,0 +1,7 @@
+{
+	"repaired_at": "2025-10-01T01:27:28.141061Z",
+	"input": "/mnt/c/Users/km307/Desktop/EDAI-5/VRL/vrl_branch_file/results/dupblock_test/trial_01/corrupted.img",
+	"output": "/mnt/c/Users/km307/Desktop/EDAI-5/VRL/vrl_branch_file/results/dupblock_test/trial_01/repaired_vrl.img",
+	"status": "simulated_repaired",
+	"notes": "This is a mock VRL output for experiments. Replace with real VRL apply."
+}

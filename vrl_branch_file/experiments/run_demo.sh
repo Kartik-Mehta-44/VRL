@@ -15,7 +15,7 @@ mkdir -p "$RESULTS_DIR"
 # create virtualenv if missing
 if [ ! -x "$PYTHON" ]; then
   echo "Creating virtualenv at $VENV_DIR ..."
-  python3 -m venv "$VENV_DIR"
+  py -m venv "$VENV_DIR"
   echo "Upgrading pip..."
   "$PYTHON" -m pip install --upgrade pip setuptools wheel >/dev/null
   if [ -f "$REPO_ROOT/requirements.txt" ]; then

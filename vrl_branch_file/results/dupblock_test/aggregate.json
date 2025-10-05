@@ -1,0 +1,19 @@
+[
+  {
+    "trial": 1,
+    "timestamp": "2025-10-01T01:27:28.165480+00:00",
+    "base_img_size": 209715200,
+    "corrupted_img_size": 209715200,
+    "e2fsck": {
+      "rc": 0,
+      "duration_s": 142.05719256401062,
+      "log": "results/dupblock_test/trial_01/e2fsck_fix.log"
+    },
+    "vrl_apply": {
+      "rc": 0,
+      "duration_s": 6.19762396812439,
+      "log": "results/dupblock_test/trial_01/vrl_apply.log",
+      "cmd": "python3 experiments/scripts/vrl_apply_mock.py --input results/dupblock_test/trial_01/corrupted.img --output results/dupblock_test/trial_01/repaired_vrl.img --plan experiments/data/plan_trial_01.json"
+    }
+  }
+]
